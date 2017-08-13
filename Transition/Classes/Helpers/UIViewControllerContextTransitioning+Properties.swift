@@ -101,18 +101,18 @@ public extension UIViewControllerContextTransitioning {
         
         let toView_ : UIView? = toViewController.view
         let fromView_ : UIView? = fromViewController.view
-        let superview_ = UIView? = toView.superview
+        let superview_ : UIView? = toView_?.superview
         
         switch modalOperation {
         case .present:
-            containerView.addSubview(toView_)
+            containerView.addSubview(toView_!)
         case .dismiss:
             if superview_ == nil {
-                containerView.insertSubview(toView_, belowSubview: fromView_)
+                containerView.insertSubview(toView_!, belowSubview: fromView_!)
             }
         default: return nil
         }
-        toView_.frame = finalFrame(for: toViewController)
+        toView_?.frame = finalFrame(for: toViewController)
         return modalOperation == .present ? toView_ : fromView_
     }
     
