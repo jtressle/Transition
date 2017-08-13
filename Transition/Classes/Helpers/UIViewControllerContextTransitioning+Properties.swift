@@ -94,17 +94,26 @@ public extension UIViewControllerContextTransitioning {
     }
     
     public func defaultViewSetup(for modalOperation: UIViewControllerModalOperation) -> UIView? {
+        
+        //need to explicitly create toView and fromView variables
+        //UIKit context explicitly sets toView = nil for .present and
+        //fromView = nil for .dismiss
+        
+        let toView_ : UIView? = toViewController.view
+        let fromView_ : UIView? = fromViewController.view
+        let superview_ = UIView? = toView.superview
+        
         switch modalOperation {
         case .present:
-            containerView.addSubview(toView)
+            containerView.addSubview(toView_)
         case .dismiss:
-            if toView.superview == nil {
-                containerView.insertSubview(toView, belowSubview: fromView)
+            if superview_ == nil {
+                containerView.insertSubview(toView_, belowSubview: fromView_)
             }
         default: return nil
         }
-        toView.frame = finalFrame(for: toViewController)
-        return modalOperation == .present ? toView : fromView
+        toView_.frame = finalFrame(for: toViewController)
+        return modalOperation == .present ? toView_ : fromView_
     }
     
     public func defaultViewSetup(for tabBarOperation: UITabBarControllerOperation) -> UIView? {
